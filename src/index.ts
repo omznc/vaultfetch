@@ -13,6 +13,7 @@ const vault = require("node-vault")({
 	apiVersion: 'v1',
 });
 
+
 // I understand that I'm doing this in Typescript while using "any" everywhere, but I'm just trying to get this to work and this is my normal project template.
 vault
 	.read(secretPath)
