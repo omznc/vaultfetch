@@ -18,26 +18,26 @@ vault
 	.read(secretPath)
 	.then((result: any) => {
 		if (!fs.existsSync('secrets')) fs.mkdirSync('secrets');
+		if (result.data.data === undefined) throw new Error('Could not find any secrets.');
+		fs.writeFileSync(
+			`secrets/${ process.env.OUTPUT_FILE ?? ".env" }`,
+			Object.keys(result.data.data).map(key => `${ key }=${ result.data.data[key] }`
+			).join('\n'));
 
-		fs.writeFileSync(`secrets/${ process.env.OUTPUT_FILE ??
-		".env" }`, Object.keys(result.data.data).map(key => `${ key }=${ result.data.data[key] }`).join('\n'));
-
-		console.log('Secrets written to successfully.');
+		console.log('Secret(s) fetched successfully.');
 	})
 	.catch((err: any) => {
-		if (err.response === undefined) console.log(`Could not connect to the Vault server at ${ baseURL }.`);
-
-		else switch (err.response.statusCode) {
-			case 403:
-				console.log('Access denied. Check your token and permissions.');
-				break;
-			case 404:
-				console.log('Secret not found. Check your secret path.');
-				break;
-			case 500:
-				console.log('Vault server error. Check your Vault server logs.');
-				break;
-			default:
-				console.log(`Unknown error: ${ err.response.statusCode }`);
-		}
+		if (err.response === undefined)
+			console.log(`Could not connect to the Vault server at ${ baseURL }.`);
+		else
+			switch (err.response.statusCode) {
+				case 403:
+					throw new Error('Access denied. Check your token and permissions.');
+				case 404:
+					throw new Error('Secret not found. Check your secret path.');
+				case 500:
+					throw new Error('Vault server error. Check your Vault server logs.');
+				default:
+					throw new Error(`Unknown error: ${ err.response.statusCode }`);
+			}
 	});

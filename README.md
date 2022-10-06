@@ -2,8 +2,8 @@
 
 <a href="https://hub.docker.com/repository/docker/omznc/vaultfetch"><img src="https://img.shields.io/badge/DockerHub-white?style=for-the-badge&logo=docker"></a></p>
 
-This exists to solve a simple problem I had - simply fetching multiple secrets on the same path, and saving them to an
-env file.
+This exists to solve a simple problem I had - simply fetching multiple secrets on the same path, and saving them to a
+file.
 
 It's supposed to be used in smaller-scale projects, where you don't want to use a full-blown secret management system,
 but you still want to utilize Vault.
@@ -31,7 +31,7 @@ command.
 - `VAULT_ADDR` - The address of the Vault server.
 - `VAULT_TOKEN` - The token to use to authenticate with Vault.
 - `SECRET_PATH` - The path to fetch secrets from.
-- `OUTPUT_FILE` - The file to write the output to.
+- `OUTPUT_FILE` - The file to write the output to. Defaults to `.env`.
 
 ## License
 
