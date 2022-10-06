@@ -1,4 +1,4 @@
-# VaultFetch 
+<center><img src="https://i.imgur.com/WGqYaLo.png"/></center>
 
 <a href="https://hub.docker.com/repository/docker/omznc/vaultfetch"><img src="https://img.shields.io/badge/DockerHub-white?style=for-the-badge&logo=docker"></a></p>
 
