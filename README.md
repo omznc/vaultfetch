@@ -1,4 +1,4 @@
-# VaultFetch
+# VaultFetch 
 
 <a href="https://hub.docker.com/repository/docker/omznc/vaultfetch"><img src="https://img.shields.io/badge/DockerHub-white?style=for-the-badge&logo=docker"></a></p>
 
@@ -43,3 +43,6 @@ project, but it's not required.
 
 If you have any ideas, or want to contribute, feel free to open an issue or a pull request.
 I don't have any specific guidelines, but I'll try to respond as soon as I can.
+
+---
+[![CI](https://github.com/omznc/vaultfetch/actions/workflows/CI.yml/badge.svg)](https://github.com/omznc/vaultfetch/actions/workflows/CI.yml)
