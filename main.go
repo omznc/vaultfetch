@@ -22,7 +22,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
+	fmt.Println("Fetching secrets from Vault...")
 	backupOldSecrets(fileName)
 	saveToFile(fileName, fetchSecrets(client, KV2mount, path))
 
@@ -32,8 +32,9 @@ func backupOldSecrets(name string) {
 	if _, err := os.Stat("backup"); os.IsNotExist(err) {
 		os.Mkdir("backup", 0755)
 	}
-	
+
 	if _, err := os.Stat(fmt.Sprintf("output/%s", name)); !os.IsNotExist(err) {
+		fmt.Println("Backed up old secrets.")
 		os.Rename(fmt.Sprintf("output/%s", name), fmt.Sprintf("backup/%s", name))
 	}
 
@@ -57,13 +58,16 @@ func saveToFile(fileName string, secrets *vault.KVSecret) {
 		panic(err)
 	}
 
+	i := 0
 	for key, value := range secrets.Data {
+		i += 1
 		_, err := file.WriteString(fmt.Sprintf("%s=%s\n", key, value))
 		if err != nil {
 			panic(err)
 		}
 	}
 
+	fmt.Println("Wrote", i, "secrets.")
 	if err := file.Close(); err != nil {
 		panic(err)
 	}

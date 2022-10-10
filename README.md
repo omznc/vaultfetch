@@ -19,7 +19,7 @@ but you still want to utilize Vault.
 This will mount the current directory to the output of the .env file, and fetch the secrets from the
 path `secret/staging` with obviously fake credentials.
 ```bash
-docker run -it --rm -v $(pwd):/app/output -e VAULT_ADDR=https://vault.example.com -e VAULT_TOKEN=1234567890 -e VAULT_SECRET_PATH=secret/staging omznc/vaultfetch
+docker run -it --rm -v $(pwd):/app/output -e VAULT_ADDR=https://vault.example.com -e VAULT_TOKEN=1234567890 -e VAULT_SECRET_PATH=project/staging omznc/vaultfetch
 ```
 
 ## Volume mapping
@@ -30,9 +30,9 @@ docker run -it --rm -v $(pwd):/app/output -e VAULT_ADDR=https://vault.example.co
 
 - `VAULT_ADDR` - The address of the Vault server.
 - `VAULT_TOKEN` - The token to use to authenticate with Vault.
-- `VAULT_SECRET_PATH` - The path to fetch secrets from.
-- `OUTPUT_FILE` - The file to write the output to. Defaults to `.env`.
+- `VAULT_SECRET_PATH` - The path to fetch secrets from. You don't need to include the mount path because of the `VAULT_KV2_MOUNT` variable.
 - `VAULT_KV2_MOUNT` - The mount point of the KV2 secrets engine. Defaults to `secret`.
+- `OUTPUT_FILE` - The file to write the output to. Defaults to `.env`.
 
 
 ## License
