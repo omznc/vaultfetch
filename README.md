@@ -3,7 +3,7 @@
 <a href="https://hub.docker.com/repository/docker/omznc/vaultfetch"><img src="https://img.shields.io/badge/DockerHub-white?style=for-the-badge&logo=docker"></a></p>
 
 This exists to solve a simple problem I had - simply fetching multiple secrets on the same path, and saving them to a
-file.
+file. It's written in Go, and is a single, snappy binary.
 
 It's supposed to be used in smaller-scale projects, where you don't want to use a full-blown secret management system,
 but you still want to utilize Vault.
@@ -18,20 +18,22 @@ but you still want to utilize Vault.
 
 This will mount the current directory to the output of the .env file, and fetch the secrets from the
 path `secret/staging` with obviously fake credentials.
-
 ```bash
-docker run -it --rm -v $(pwd):/app/secrets -e VAULT_ADDR=https://vault.example.com -e VAULT_TOKEN=1234567890 -e SECRET_PATH=secret/staging -e OUTPUT_FILE=.env vaultfetch
+docker run -it --rm -v $(pwd):/app/output -e VAULT_ADDR=https://vault.example.com -e VAULT_TOKEN=1234567890 -e VAULT_SECRET_PATH=secret/staging omznc/vaultfetch
 ```
 
-Since I have a docker-compose file that uses the .env file, I'll be adding `&& docker-compose up` to the end of the
-command.
+## Volume mapping
 
+- `/app/output` - The output file. This is where the .env file will be saved.
+- `/app/backup` - The backup directory. This is where the previous .env file will be saved.
 ## Environment Variables
 
 - `VAULT_ADDR` - The address of the Vault server.
 - `VAULT_TOKEN` - The token to use to authenticate with Vault.
-- `SECRET_PATH` - The path to fetch secrets from.
+- `VAULT_SECRET_PATH` - The path to fetch secrets from.
 - `OUTPUT_FILE` - The file to write the output to. Defaults to `.env`.
+- `VAULT_KV2_MOUNT` - The mount point of the KV2 secrets engine. Defaults to `secret`.
+
 
 ## License
 

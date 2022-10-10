@@ -1,14 +1,10 @@
-FROM node:18-alpine AS build
+FROM golang:1.19.2-alpine AS builder
 WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
+COPY . ./
+RUN go build -o main .
 
-FROM node:18-alpine AS release
+FROM alpine:latest AS runner
 WORKDIR /app
-COPY --from=build /app/package*.json ./
-RUN npm ci --only=production
-COPY --from=build /app/dist ./dist
-CMD ["node", "dist/index.js"]
-
+COPY --from=builder /app/main .
+RUN mkdir /app/output && mkdir /app/backup
+CMD ["/app/main"]
